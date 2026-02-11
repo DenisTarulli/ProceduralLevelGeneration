@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class LayoutGeneratorRooms : MonoBehaviour
 {
-    [SerializeField] private int levelWidth = 64;
-    [SerializeField] private int levelLength = 64;
+    [SerializeField] private int width = 64;
+    [SerializeField] private int length = 64;
 
     [SerializeField, Tooltip("Inclusive")] private int roomWidthMind = 3;
     [SerializeField, Tooltip("Exclusive")] private int roomWidthMax = 5;
@@ -41,18 +41,18 @@ public class LayoutGeneratorRooms : MonoBehaviour
         // Generate random width
         int roomWidth = random.Next(roomWidthMind, roomWidthMax);
         // Width available in the inner rect after substracting the new room width
-        int availableWidthX = levelWidth / 2 - roomWidth;
+        int availableWidthX = width / 2 - roomWidth;
         // Random x position of the new room
         int randomX = random.Next(0, availableWidthX);
         // Add the quarter of level width offset so the new room position
         // is based of the inner rect position (center of the level)
-        int roomX = randomX + (levelWidth / 4);
+        int roomX = randomX + (width / 4);
 
         // We do the same procedure with the new room length
         int roomLength = random.Next(roomLengthMin, roomLengthMax);
-        int availableLengthY = levelLength / 2 - roomLength;
+        int availableLengthY = length / 2 - roomLength;
         int randomY = random.Next(0, availableLengthY);
-        int roomY = randomY + (levelLength / 4);
+        int roomY = randomY + (length / 4);
 
         return new RectInt(roomX, roomY, roomWidth, roomLength);
     }
@@ -63,8 +63,8 @@ public class LayoutGeneratorRooms : MonoBehaviour
 
         var layoutTexture = (Texture2D)renderer.sharedMaterial.mainTexture;
 
-        layoutTexture.Reinitialize(levelWidth, levelLength);
-        levelLayoutDisplay.transform.localScale = new Vector3(levelWidth, levelLength, 1f);
+        layoutTexture.Reinitialize(width, length);
+        levelLayoutDisplay.transform.localScale = new Vector3(width, length, 1f);
         layoutTexture.FillWithColor(Color.black);
         layoutTexture.DrawRectangle(roomCandidateRect, Color.cyan);
         layoutTexture.SaveAsset();
